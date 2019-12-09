@@ -1,0 +1,175 @@
+scalar Date
+
+enum ParticipantRole{
+    Organiser
+    VIP
+    Participant
+    Emcee
+}
+
+type Label{
+    id: ID
+    name: String
+    createdAt: String
+}
+
+type Picture{
+    id: ID
+    url: String
+    alt: String
+    caption: String
+}
+
+type Address{
+    id: ID
+    city: String
+    country: String
+    street: String
+    houseNumber: Int
+    addition: String
+}
+
+type Location{
+    lat: Float
+    lng: Float
+}
+
+type Person{
+    id: ID
+    firstName: String
+    lastName: String
+    callSign: String
+    createdAt: String
+    updatedAt: String
+    picture: Picture
+}
+
+type Brand{
+    id: ID
+    name: String
+    logo: String
+    events: [Event]
+    labels: [Label]
+    createdAt: Date
+    updatedAt: Date
+}
+
+type Event{
+    id: ID
+    name: String
+    startsAt: Date
+    endsAt: Date
+    brand: Brand
+    speakers: [Speaker]
+    schedule: [Schedule]
+    sponsors: [Sponsor]
+    participants: [Participant]
+    attendees: [Attendee]
+    people: [Person]
+    venue: Venue
+    talks: [Talk]
+    labels: [Label]
+    createdAt: Date
+    updatedAt: Date
+}
+
+type Organisation{
+    id: ID
+    name: String
+}
+
+type Sponsor{
+    id: ID
+    event: Event
+    organisation: Organisation
+}
+
+type Venue{
+    id: ID
+    name: String
+    description: String
+    organisation: [Organisation]
+    pictures: [Picture]
+    address: Address
+    location: Location
+}
+
+type Participant{
+    id: ID
+    event: Event
+    person: Person
+    role: ParticipantRole
+}
+
+type Speaker{
+    id: ID
+    person: Person
+    event: Event
+    timeslot: Timeslot
+    talk: Talk
+}
+
+type Talk{
+    id: ID
+    title: String
+    description: String
+    event: Event
+    speaker: Speaker
+}
+
+type Timeslot{
+    id: ID
+    title: String
+    description: String
+    schedule: Schedule
+    talk: Talk
+    startsAt: Date
+    endsAt: Date
+    createdAt: Date
+    updatedAt: Date
+}
+
+type Schedule{
+    id: ID
+    title: String
+    event: Event
+    timeslots: [Timeslot]
+    createdAt: Date
+    updatedAt: Date
+}
+
+type Ticket{
+    id: ID
+    token: String
+}
+
+type Attendee{
+    id: ID
+    person: Person
+    ticket: Ticket
+}
+
+type Query{
+    brand(
+        id: ID
+    ): Brand
+    brands: [Brand]
+    event(
+        id: ID
+    ): Event
+    events(
+        brandId: ID
+    ): [Event]
+    speaker(
+        id: ID
+    ): Speaker
+    speakers(
+        eventId: ID
+    ): [Speaker]
+    schedule(
+        eventId: ID
+    ): Schedule
+    attendees(
+        eventId: ID
+    ): [Attendee]
+}
